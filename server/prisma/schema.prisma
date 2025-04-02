@@ -8,26 +8,28 @@ datasource db {
 }
 
 model User {
-  id           Int           @id @default(autoincrement())
-  username     String        @unique
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
   password     String
-  calculations Calculation[]
+  calculations Thread[]
 }
 
-model Calculation {
+model Thread {
   id           Int     @id @default(autoincrement())
   value        Float
   operation    String?
   rightOperand Float?
   isRoot       Boolean @default(false)
 
-  parent   Calculation? @relation("Replies", fields: [parentId], references: [id])
+  parent   Thread? @relation("Replies", fields: [parentId], references: [id])
   parentId Int?
 
-  replies Calculation[] @relation("Replies")
+  replies Thread[] @relation("Replies")
 
   user   User @relation(fields: [userId], references: [id])
   userId Int
 
   createdAt DateTime @default(now())
+
+  @@map("Calculation")
 }
