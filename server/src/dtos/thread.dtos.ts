@@ -26,7 +26,7 @@ export const ThreadResponseSchema = z.object({
 export type ThreadResponse = z.infer<typeof ThreadResponseSchema>;
 
 const ThreadBaseSchema = z.object({
-  value: z.number()
+  value: z.number().finite().safe()
 });
 
 export const CreateThreadRequestSchema = ThreadBaseSchema;
@@ -34,7 +34,7 @@ export const CreateThreadRequestSchema = ThreadBaseSchema;
 export const CreateReplyRequestSchema = z
   .object({
     operation: z.enum(["ADD", "SUBTRACT", "MULTIPLY", "DIVIDE"]),
-    rightOperand: z.number()
+    rightOperand: z.number().finite().safe()
   })
   .refine((data) => data.operation !== "DIVIDE" || data.rightOperand !== 0, {
     message: "Cannot divide by zero",

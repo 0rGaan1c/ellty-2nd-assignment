@@ -3,10 +3,12 @@ import { z } from "zod";
 export const SessionRequestSchema = z.object({
   username: z
     .string()
+    .trim()
     .min(3, "Username must be at least 3 characters")
     .max(30, "Username must not exceed 30 characters"),
   password: z
     .string()
+    .trim()
     .min(4, "Password must be at least 4 characters")
     .max(100, "Password is too long")
 });
