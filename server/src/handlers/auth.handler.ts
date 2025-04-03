@@ -65,5 +65,5 @@ export const createSession = catchAsync(async (req: Request, res: Response) => {
 
   SessionResponseSchema.parse(responseData);
 
-  return ApiResponse.success(res, responseData, message || "Login successful");
+  return ApiResponse.success(res, responseData, message || "Login successfull");
 });
