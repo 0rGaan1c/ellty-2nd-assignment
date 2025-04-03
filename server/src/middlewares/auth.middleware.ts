@@ -2,17 +2,14 @@ import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import jwt from "jsonwebtoken";
 import { authConfig } from "../config/auth.config";
+import { AuthUser, AuthUserSchema } from "../dtos/auth.dtos";
 import prisma from "../prisma";
 import { AppError } from "./errorHandler";
 
-// Extend Express Request type to include user
 declare global {
   namespace Express {
     interface Request {
-      user?: {
-        id: number;
-        username: string;
-      };
+      user: AuthUser;
     }
   }
 }
@@ -23,7 +20,6 @@ export const protect = async (
   next: NextFunction
 ) => {
   try {
-    // 1) Get token from authorization header
     let token;
     if (
       req.headers.authorization &&
@@ -32,7 +28,7 @@ export const protect = async (
       token = req.headers.authorization.split(" ")[1];
     }
 
-    if (!token) {
+    if (!token || typeof token !== "string") {
       return next(
         new AppError(
           "You are not logged in. Please log in to get access",
@@ -41,10 +37,8 @@ export const protect = async (
       );
     }
 
-    // 2) Verify token
-    const decoded: any = jwt.verify(token, authConfig.secret);
+    const decoded: any = jwt.verify(token, authConfig.secret as string);
 
-    // 3) Check if user still exists
     const currentUser = await prisma.user.findUnique({
       where: { id: decoded.id }
     });
@@ -58,11 +52,7 @@ export const protect = async (
       );
     }
 
-    // 4) Grant access to protected route
-    req.user = {
-      id: currentUser.id,
-      username: currentUser.username
-    };
+    req.user = AuthUserSchema.parse(currentUser);
     next();
   } catch (error) {
     next(new AppError("Authentication failed", StatusCodes.UNAUTHORIZED));

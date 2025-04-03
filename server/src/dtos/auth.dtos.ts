@@ -14,9 +14,15 @@ export const SessionRequestSchema = z.object({
 export type SessionRequest = z.infer<typeof SessionRequestSchema>;
 
 export const SessionResponseSchema = z.object({
-  userId: z.number(),
   username: z.string(),
   token: z.string()
 });
 
+export const AuthUserSchema = z.object({
+  id: z.number(),
+  username: z.string()
+});
+
 export type SessionResponse = z.infer<typeof SessionResponseSchema>;
+
+export type AuthUser = z.infer<typeof AuthUserSchema>;

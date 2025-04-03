@@ -59,7 +59,6 @@ export const createSession = catchAsync(async (req: Request, res: Response) => {
 
   const token = signToken(user.id);
   const responseData = {
-    userId: user.id,
     username: user.username,
     token
   };

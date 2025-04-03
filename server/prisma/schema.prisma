@@ -19,7 +19,6 @@ model Thread {
   value        Float
   operation    String?
   rightOperand Float?
-  isRoot       Boolean @default(false)
 
   parent   Thread? @relation("Replies", fields: [parentId], references: [id])
   parentId Int?
@@ -31,5 +30,6 @@ model Thread {
 
   createdAt DateTime @default(now())
 
-  @@map("Calculation")
+  @@index([parentId])
+  @@map("Thread")
 }

@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 async function main() {
   // Clean the database
-  await prisma.calculation.deleteMany({});
+  await prisma.thread.deleteMany({});
   await prisma.user.deleteMany({});
 
   // Create users
@@ -25,25 +25,23 @@ async function main() {
     }
   });
 
-  // Create starting calculations (root nodes)
-  const calc1 = await prisma.calculation.create({
+  // Create starting threads (root nodes)
+  const calc1 = await prisma.thread.create({
     data: {
       value: 10,
-      isRoot: true,
       userId: user1.id
     }
   });
 
-  const calc2 = await prisma.calculation.create({
+  const calc2 = await prisma.thread.create({
     data: {
       value: 25,
-      isRoot: true,
       userId: user2.id
     }
   });
 
-  // Add replies/operations to first calculation
-  const reply1ToCalc1 = await prisma.calculation.create({
+  // Add replies/operations to first thread
+  const reply1ToCalc1 = await prisma.thread.create({
     data: {
       value: 15, // 10 + 5
       operation: "+",
@@ -53,7 +51,7 @@ async function main() {
     }
   });
 
-  const reply2ToCalc1 = await prisma.calculation.create({
+  const reply2ToCalc1 = await prisma.thread.create({
     data: {
       value: 20, // 10 * 2
       operation: "*",
@@ -64,7 +62,7 @@ async function main() {
   });
 
   // Add nested reply
-  await prisma.calculation.create({
+  await prisma.thread.create({
     data: {
       value: 5, // 15 - 10
       operation: "-",
@@ -74,7 +72,7 @@ async function main() {
     }
   });
 
-  await prisma.calculation.create({
+  await prisma.thread.create({
     data: {
       value: 45, // 15 * 3
       operation: "*",
@@ -84,8 +82,8 @@ async function main() {
     }
   });
 
-  // Add replies to second calculation
-  await prisma.calculation.create({
+  // Add replies to second thread
+  await prisma.thread.create({
     data: {
       value: 5, // 25 / 5
       operation: "/",
@@ -95,7 +93,7 @@ async function main() {
     }
   });
 
-  await prisma.calculation.create({
+  await prisma.thread.create({
     data: {
       value: 125, // 25 * 5
       operation: "*",

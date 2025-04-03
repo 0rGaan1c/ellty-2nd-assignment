@@ -46,6 +46,7 @@ const errorHandler = (
   }
 
   if (err instanceof z.ZodError) {
+    console.log(err);
     return res.status(StatusCodes.BAD_REQUEST).json({
       status: "fail",
       errors: err.errors.map((e) => ({
