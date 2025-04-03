@@ -12,12 +12,12 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
+app.use("/api/auth", authRouter);
+app.use("/api/threads", threadsRouter);
+
 app.use((err: AppError, req: Request, res: Response, next: NextFunction) => {
   errorHandler(err, req, res, next);
 });
-
-app.use("/api/auth", authRouter);
-app.use("/api/threads", threadsRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.json({

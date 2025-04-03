@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express-serve-static-core";
 import { StatusCodes } from "http-status-codes";
+import { z } from "zod";
 import { ApiResponse } from "../utils/apiResponse";
 
 const catchAsync = (fn: Function) => {
@@ -42,6 +43,16 @@ const errorHandler = (
       case "P2025":
         return ApiResponse.notFound(res, "Record not found");
     }
+  }
+
+  if (err instanceof z.ZodError) {
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      status: "fail",
+      errors: err.errors.map((e) => ({
+        field: e.path.join("."),
+        message: e.message
+      }))
+    });
   }
 
   switch (true) {
