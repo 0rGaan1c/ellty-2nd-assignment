@@ -12,6 +12,7 @@ interface ThreadFormProps {
 
 export default function ThreadForm({ onNewThread }: ThreadFormProps) {
   const [value, setValue] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const { user } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -21,15 +22,19 @@ export default function ThreadForm({ onNewThread }: ThreadFormProps) {
       return;
     }
 
-    const result = await createThread(Number(value));
-    if (result.success && result.data) {
-      setValue("");
-
-      if (result.data) onNewThread(result.data);
-
-      toast.success("Thread created successfully!");
-    } else {
+    setSubmitting(true);
+    try {
+      const result = await createThread(Number(value));
+      if (result.success && result.data) {
+        setValue("");
+        if (result.data) onNewThread(result.data);
+        toast.success("Thread created successfully!");
+      }
+    } catch (error) {
+      console.log(error);
       toast.error("Failed to create thread");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -44,8 +49,8 @@ export default function ThreadForm({ onNewThread }: ThreadFormProps) {
           step="any"
           className="flex-grow"
         />
-        <Button type="submit" disabled={!value}>
-          Post Thread
+        <Button type="submit" disabled={submitting || !value}>
+          {submitting ? "Posting..." : "Post"}
         </Button>
       </form>
     </div>

@@ -1,7 +1,7 @@
 export interface Thread {
   id: number;
   value: number;
-  operation: string | null;
+  operation: "ADD" | "SUBTRACT" | "MULTIPLY" | "DIVIDE" | null;
   rightOperand: number | null;
   parentId: number | null;
   userId: number;

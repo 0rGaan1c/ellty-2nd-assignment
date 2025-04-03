@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { createReply } from "../../api/threads";
+import useAuth from "../../hooks/useAuth";
 import Button from "../ui/Button";
 import Input from "../ui/Input";
 
@@ -14,8 +15,14 @@ export default function ReplyForm({
   const [operation, setOperation] = useState("ADD");
   const [rightOperand, setRightOperand] = useState(0);
   const [submitting, setSubmitting] = useState(false);
+  const { user } = useAuth();
 
   const handleSubmit = async () => {
+    if (!user) {
+      toast.error("You must be logged in to reply");
+      return;
+    }
+
     setSubmitting(true);
 
     try {

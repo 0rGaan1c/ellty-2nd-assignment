@@ -44,7 +44,7 @@ async function main() {
   const reply1ToCalc1 = await prisma.thread.create({
     data: {
       value: 15, // 10 + 5
-      operation: "+",
+      operation: "ADD",
       rightOperand: 5,
       parentId: calc1.id,
       userId: user2.id
@@ -54,7 +54,7 @@ async function main() {
   const reply2ToCalc1 = await prisma.thread.create({
     data: {
       value: 20, // 10 * 2
-      operation: "*",
+      operation: "MULTIPLY",
       rightOperand: 2,
       parentId: calc1.id,
       userId: user1.id
@@ -65,7 +65,7 @@ async function main() {
   await prisma.thread.create({
     data: {
       value: 5, // 15 - 10
-      operation: "-",
+      operation: "SUBTRACT",
       rightOperand: 10,
       parentId: reply1ToCalc1.id,
       userId: user1.id
@@ -75,7 +75,7 @@ async function main() {
   await prisma.thread.create({
     data: {
       value: 45, // 15 * 3
-      operation: "*",
+      operation: "MULTIPLY",
       rightOperand: 3,
       parentId: reply1ToCalc1.id,
       userId: user2.id
@@ -86,7 +86,7 @@ async function main() {
   await prisma.thread.create({
     data: {
       value: 5, // 25 / 5
-      operation: "/",
+      operation: "DIVIDE",
       rightOperand: 5,
       parentId: calc2.id,
       userId: user1.id
@@ -96,7 +96,7 @@ async function main() {
   await prisma.thread.create({
     data: {
       value: 125, // 25 * 5
-      operation: "*",
+      operation: "MULTIPLY",
       rightOperand: 5,
       parentId: calc2.id,
       userId: user2.id

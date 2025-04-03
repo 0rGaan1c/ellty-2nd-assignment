@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { getThreadReplies } from "../../api/threads";
 import { Thread } from "../../types";
+import { operationToSymbol } from "../../utils/operation";
 import Button from "../ui/Button";
 import ReplyForm from "./ReplyForm";
 
@@ -10,7 +11,7 @@ export default function ThreadItem({ thread }: { thread: Thread }) {
   const [replies, setReplies] = useState<Thread[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const fetchReplies = async () => {
+  const fetchReplies = useCallback(async () => {
     if (!showReplies) return;
 
     setLoading(true);
@@ -22,13 +23,13 @@ export default function ThreadItem({ thread }: { thread: Thread }) {
       toast.error("Failed to load replies");
     }
     setLoading(false);
-  };
+  }, [showReplies, thread.id]);
 
   useEffect(() => {
     if (showReplies) {
       fetchReplies();
     }
-  }, [showReplies]);
+  }, [showReplies, fetchReplies]);
 
   const toggleReplies = () => {
     setShowReplies(!showReplies);
@@ -40,7 +41,16 @@ export default function ThreadItem({ thread }: { thread: Thread }) {
         <span className="font-medium text-gray-700">
           {thread.user.username}
         </span>
-        <span className="text-2xl font-bold">{thread.value}</span>
+        <div className="flex justify-end">
+          {thread.parentId && thread.operation && (
+            <div className="text-2xl">
+              <span className="text-gray-500">
+                {operationToSymbol[thread.operation]} {thread.rightOperand} =
+              </span>
+            </div>
+          )}
+          <span className="font-bold text-2xl pl-2"> {thread.value}</span>
+        </div>
       </div>
 
       <div className="mt-2">

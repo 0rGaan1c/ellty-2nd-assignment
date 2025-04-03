@@ -15,9 +15,9 @@ model User {
 }
 
 model Thread {
-  id           Int     @id @default(autoincrement())
+  id           Int        @id @default(autoincrement())
   value        Float
-  operation    String?
+  operation    Operation?
   rightOperand Float?
 
   parent   Thread? @relation("Replies", fields: [parentId], references: [id])
@@ -32,4 +32,11 @@ model Thread {
 
   @@index([parentId])
   @@map("Thread")
+}
+
+enum Operation {
+  ADD
+  SUBTRACT
+  MULTIPLY
+  DIVIDE
 }

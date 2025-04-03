@@ -13,7 +13,7 @@ function App() {
           <ThreadList />
         </main>
         <Footer />
-        <Toaster position="top-right" />
+        <Toaster position="top-center" />
       </div>
     </AuthProvider>
   );
