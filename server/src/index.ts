@@ -1,3 +1,4 @@
+import cors from "cors";
 import "dotenv/config";
 import express from "express";
 import { NextFunction, Request, Response } from "express-serve-static-core";
@@ -9,6 +10,8 @@ import threadsRouter from "./routes/threads.routes";
 const app = express();
 
 const PORT = process.env.PORT || 3000;
+
+app.use(cors());
 
 app.use(express.json());
 
