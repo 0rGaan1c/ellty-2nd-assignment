@@ -49,6 +49,7 @@ const errorHandler = (
     console.log(err);
     return res.status(StatusCodes.BAD_REQUEST).json({
       status: "fail",
+      message: err.errors[0].message,
       errors: err.errors.map((e) => ({
         field: e.path.join("."),
         message: e.message

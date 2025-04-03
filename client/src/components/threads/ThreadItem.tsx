@@ -4,6 +4,7 @@ import { getThreadReplies } from "../../api/threads";
 import { Thread } from "../../types";
 import { operationToSymbol } from "../../utils/operation";
 import Button from "../ui/Button";
+import UserAvatar from "../ui/UserAvatar";
 import ReplyForm from "./ReplyForm";
 
 export default function ThreadItem({ thread }: { thread: Thread }) {
@@ -38,9 +39,12 @@ export default function ThreadItem({ thread }: { thread: Thread }) {
   return (
     <div className="bg-white p-4 rounded-lg shadow">
       <div className="flex justify-between items-center mb-2">
-        <span className="font-medium text-gray-700">
-          {thread.user.username}
-        </span>
+        <div>
+          <UserAvatar username={thread.user.username} />
+          <span className="font-medium text-gray-700">
+            {thread.user.username}
+          </span>
+        </div>
         <div className="flex justify-end">
           {thread.parentId && thread.operation && (
             <div className="text-2xl">

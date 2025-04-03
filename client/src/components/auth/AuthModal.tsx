@@ -12,22 +12,24 @@ export default function AuthModal({ onClose }: AuthModalProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
   const { login } = useAuth();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
+    setSubmitting(true);
     try {
       const result = await login(username, password);
       if (result.success) {
         toast.success(`Successfully ${isLogin ? "logged in" : "registered"}!`);
         onClose();
-      } else {
-        toast.error(result.error?.message || "Authentication failed");
       }
     } catch (error) {
       console.error(error);
       toast.error("An error occurred");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -60,8 +62,18 @@ export default function AuthModal({ onClose }: AuthModalProps) {
             required
           />
 
-          <Button type="submit" className="w-full">
-            {isLogin ? "Login" : "Register"}
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={submitting || !username || !password}
+          >
+            {isLogin
+              ? submitting
+                ? "Logging in"
+                : "Login"
+              : submitting
+              ? "Registering"
+              : "Register"}
           </Button>
         </form>
 
