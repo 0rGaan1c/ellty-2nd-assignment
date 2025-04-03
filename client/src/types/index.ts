@@ -1,22 +1,27 @@
-export interface User {
-  id: number;
-  username: string;
-}
-
 export interface Thread {
   id: number;
   value: number;
-  operation?: string;
-  rightOperand?: number;
-  parentId?: number;
+  operation: string | null;
+  rightOperand: number | null;
+  parentId: number | null;
   userId: number;
   createdAt: string;
-  user?: User;
-  replies?: Thread[];
+  user: {
+    id: number;
+    username: string;
+  };
+  _count: {
+    replies: number;
+  };
 }
 
-export interface AuthState {
-  user: User | null;
-  token: string | null;
-  isAuthenticated: boolean;
+export interface AuthResponse {
+  username: string;
+  token: string;
+}
+
+export interface ApiResult<T> {
+  success: boolean;
+  data: T | null;
+  error: any;
 }
