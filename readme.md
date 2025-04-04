@@ -61,6 +61,10 @@ model Thread {
 
 **Note**: Most of my decisions were also influenced by the time limit of the assignment, so I focused on the core part of the problem, building the nested thread logic and ensuring the calculations worked correctly. That being said, I’d love to improve the proejct whenever I have free time, like adding more tests, implementing pagination, and generally making the project better.
 
+
+## Deployment
+The entire application, including the frontend, backend, and PostgreSQL database, is deployed on Railway.
+
 ## Backend
 
 ### Tech Stack
@@ -127,7 +131,7 @@ Keeping the assignment's time frame in mind, I implemented a simple authenticati
 - **Request:** `{ operation, rightOperand, userId }`
 - userId is decoded from the JWT token
 
-## Future Improvements
+### Future Improvements
 
 - **Pagination**: Currently, all threads and replies are fetched at once, which isn't scalable. Implementing proper pagination would improve performance.
 - **Enhanced Authentication**: More secure auth flows with refresh tokens and stronger password hashing.
@@ -135,7 +139,6 @@ Keeping the assignment's time frame in mind, I implemented a simple authenticati
 - **Better Error Handling**: Although the error handling is pretty decent and works, we can improve it by sending more detailed, standardized error responses to the client for better debugging and clarity.
 - **Testing**: I really wanted to work more on this since I’ve recently started getting into backend testing in my part-time gig, but due to the time constraint of the assignment, I couldn’t include test coverage here (though I want to and would be something that I will be doing).
 
----
 
 ## Frontend
 
@@ -182,7 +185,7 @@ client/
 - Rendering nested replies recursively using the ThreadItem component.
 - I used react-hot-toast to show feedback messages (success, error) across the app with minimal effort.
 
-## Future Improvements
+### Future Improvements
 
 - **Component Splitting**: Split ThreadItem into smaller components for maintainability as it handles rendering, replies, and loading logic.
 - **Other possible enhancements**: pagination for replies, optimistic UI updates, skeleton loading, more detailed error UI, visual nesting cues, caching, etc.
