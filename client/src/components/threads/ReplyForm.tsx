@@ -13,13 +13,17 @@ export default function ReplyForm({
   onReplyAdded?: () => void;
 }) {
   const [operation, setOperation] = useState("ADD");
-  const [rightOperand, setRightOperand] = useState(0);
+  const [rightOperand, setRightOperand] = useState<number | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const { user } = useAuth();
 
   const handleSubmit = async () => {
     if (!user) {
       toast.error("You must be logged in to reply");
+      return;
+    }
+    if (rightOperand === null) {
+      toast.error("Please enter a value");
       return;
     }
 
@@ -30,7 +34,7 @@ export default function ReplyForm({
 
       if (result.success) {
         toast.success("Reply posted successfully!");
-        setRightOperand(0);
+        setRightOperand(null);
 
         if (onReplyAdded) {
           onReplyAdded();
@@ -66,13 +70,17 @@ export default function ReplyForm({
 
       <Input
         type="number"
-        value={rightOperand}
+        value={rightOperand || ""}
         onChange={(e) => setRightOperand(Number(e.target.value))}
         className="flex-grow"
         disabled={submitting}
       />
 
-      <Button onClick={handleSubmit} variant="success" disabled={submitting}>
+      <Button
+        onClick={handleSubmit}
+        variant="success"
+        disabled={submitting || !rightOperand}
+      >
         {submitting ? "Posting..." : "Reply"}
       </Button>
     </div>

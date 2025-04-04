@@ -1,3 +1,4 @@
+import { formatDistanceToNow } from "date-fns";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { getThreadReplies } from "../../api/threads";
@@ -36,6 +37,8 @@ export default function ThreadItem({ thread }: { thread: Thread }) {
     setShowReplies(!showReplies);
   };
 
+  console.log(thread);
+
   return (
     <div className="bg-white p-4 rounded-lg shadow">
       <div className="flex justify-between items-center mb-2">
@@ -43,6 +46,12 @@ export default function ThreadItem({ thread }: { thread: Thread }) {
           <UserAvatar username={thread.user.username} />
           <span className="font-medium text-gray-700">
             {thread.user.username}
+          </span>
+          <span className="text-gray-500 text-sm ml-2">
+            •{" "}
+            {formatDistanceToNow(new Date(thread.createdAt), {
+              addSuffix: true
+            })}
           </span>
         </div>
         <div className="flex justify-end">
@@ -53,7 +62,9 @@ export default function ThreadItem({ thread }: { thread: Thread }) {
               </span>
             </div>
           )}
-          <span className="font-bold text-2xl pl-2"> {thread.value}</span>
+          <span className="font-bold text-2xl pl-2">
+            {Math.round(thread.value * 100) / 100}
+          </span>
         </div>
       </div>
 
