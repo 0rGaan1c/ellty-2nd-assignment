@@ -4,6 +4,11 @@
 
 🚀 [Live App](https://ellty-2nd-client-production.up.railway.app/)
 
+### Video Demo
+https://github.com/user-attachments/assets/4f606988-768a-4706-b7fb-a61dd23168d6
+
+
+
 ## My Approach and Decisions
 
 - As usual, before solving any problem, the first step is to fully understand it, so that's what I did.
